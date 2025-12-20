@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESP32 Pro Flasher</title>
+    <script
+      type="module"
+      src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
+    ></script>
+    <script src="https://unpkg.com/esptool-js/lib/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="gh-header">
+      <div class="container">
+        <div class="header-content">
+          <h1>
+            <i class="fa-brands fa-github"></i> ESP32 Tools
+            <span class="badge">PRO</span>
+          </h1>
+          <div class="status-indicator" id="connectionStatus">
+            <span class="status-dot"></span>
+            <span id="statusText">Disconnected</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container grid-layout">
+      <div class="gh-card sidebar">
+        <div class="gh-card-header">
+          <h2><i class="fa-solid fa-server"></i> Device Info</h2>
+        </div>
+        <div class="gh-card-body">
+          <div class="info-row">
+            <span class="label">Chip:</span>
+            <span class="value" id="chipType">-</span>
+          </div>
+          <div class="info-row">
+            <span class="label">MAC:</span>
+            <span class="value" id="macAddr">-</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Features:</span>
+            <span class="value" id="chipFeatures">-</span>
+          </div>
+          <hr class="gh-divider" />
+          <button id="btnConnect" class="gh-btn gh-btn-block">
+            <i class="fa-solid fa-plug"></i> Connect Device
+          </button>
+          <button id="btnReset" class="gh-btn gh-btn-block" disabled>
+            <i class="fa-solid fa-rotate-right"></i> Reset Device
+          </button>
+        </div>
+      </div>
+
+      <div class="main-column">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('flash')">
+            Flasher
+          </button>
+          <button class="tab-btn" onclick="switchTab('monitor')">
+            Serial Monitor
+          </button>
+        </div>
+
+        <div id="tab-flash" class="gh-card tab-content active">
+          <div class="gh-card-header flex-header">
+            <h2>Manual Flash</h2>
+
+            <div class="controls">
+              <select id="baudRate" class="gh-select">
+                <option value="115200">Slow (115200)</option>
+                <option value="460800">Fast (460800)</option>
+                <option value="921600" selected>Turbo (921600)</option>
+              </select>
+              <label class="checkbox-container">
+                <input type="checkbox" id="eraseFlash" />
+                <span class="checkmark"></span> Erase First
+              </label>
+            </div>
+          </div>
+
+          <div class="gh-card-body">
+            <div id="fileList"></div>
+
+            <button id="btnAddRow" class="gh-btn-text">
+              <i class="fa-solid fa-plus"></i> Add File
+            </button>
+
+            <div class="progress-container">
+              <div
+                class="progress-bar"
+                id="progressBar"
+                style="width: 0%"
+              ></div>
+            </div>
+            <p id="progressText" class="progress-text">Ready</p>
+
+            <div class="action-footer">
+              <button id="btnProgram" class="gh-btn gh-btn-primary" disabled>
+                <i class="fa-solid fa-bolt"></i> Start Flashing
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-monitor" class="gh-card tab-content">
+          <div class="gh-card-header">
+            <h2>Serial Output</h2>
+            <button id="btnClearConsole" class="gh-btn-sm">Clear</button>
+          </div>
+          <div class="gh-card-body no-padding">
+            <div class="terminal" id="console">
+              <div class="term-line">
+                Welcome to ESP32 Tools. Connect a device to begin.
+              </div>
+            </div>
+            <div class="terminal-input-area">
+              <input
+                type="text"
+                id="serialInput"
+                placeholder="Send command..."
+                disabled
+              />
+              <button id="btnSend" disabled>Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      // Initialize with one empty row
+      document.getElementById("btnAddRow").click();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,287 @@
+:root {
+    --gh-bg: #0d1117;
+    --gh-card-bg: #161b22;
+    --gh-border: #30363d;
+    --gh-text-main: #c9d1d9;
+    --gh-text-muted: #8b949e;
+    --gh-btn-bg: #21262d;
+    --gh-btn-hover: #30363d;
+    --gh-btn-primary: #238636;
+    --gh-btn-primary-hover: #2ea043;
+    --gh-btn-danger: #da3633;
+    --gh-input-bg: #0d1117;
+    --gh-link: #58a6ff;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--gh-bg);
+    color: var(--gh-text-main);
+    font-family: var(--font-stack);
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.gh-header {
+    background-color: var(--gh-card-bg);
+    border-bottom: 1px solid var(--gh-border);
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+.gh-header h1 { font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.gh-header p { color: var(--gh-text-muted); font-size: 14px; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 20px; width: 100%; }
+
+/* Grid Layout */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+/* Cards */
+.gh-card {
+    background-color: var(--gh-card-bg);
+    border: 1px solid var(--gh-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.gh-card-header {
+    background-color: var(--gh-card-bg);
+    border-bottom: 1px solid var(--gh-border);
+    padding: 16px;
+}
+.gh-card-header h2 { font-size: 14px; font-weight: 600; margin: 0; }
+
+.gh-card-body { padding: 16px; }
+
+.description { font-size: 14px; color: var(--gh-text-muted); margin-bottom: 15px; }
+
+/* Release Tag Style */
+.release-tag {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(56, 139, 253, 0.1);
+    border: 1px solid rgba(56, 139, 253, 0.4);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 12px;
+    color: #58a6ff;
+    margin-bottom: 20px;
+}
+.tag-icon { margin-right: 5px; }
+
+/* Form Elements */
+.input-group { margin-bottom: 15px; }
+.input-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; }
+
+.gh-input {
+    width: 100%;
+    background-color: var(--gh-input-bg);
+    border: 1px solid var(--gh-border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    color: var(--gh-text-main);
+    font-family: inherit;
+    font-size: 14px;
+    height: 32px;
+}
+.gh-input:focus { border-color: var(--gh-link); outline: none; box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3); }
+
+.gh-input-file { font-size: 12px; color: var(--gh-text-muted); }
+
+/* Terminal */
+.terminal {
+    background-color: #0d1117;
+    border: 1px solid var(--gh-border);
+    border-radius: 6px;
+    padding: 10px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 11px;
+    height: 120px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    color: #8b949e;
+}
+
+/* Buttons */
+.btn-group { display: flex; gap: 10px; }
+.gh-btn {
+    appearance: none;
+    background-color: var(--gh-btn-bg);
+    border: 1px solid var(--gh-border);
+    border-radius: 6px;
+    color: var(--gh-text-main);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px 16px;
+    line-height: 20px;
+    transition: 0.2s;
+}
+
+/* Add these to your existing style.css */
+
+.file-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px;
+    border: 1px solid var(--gh-border);
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.gh-divider {
+    border: 0;
+    border-top: 1px solid var(--gh-border);
+    margin: 20px 0;
+}
+
+.gh-btn-text {
+    background: none;
+    border: none;
+    color: var(--gh-link);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 5px 0;
+}
+.gh-btn-text:hover { text-decoration: underline; }
+
+.gh-btn-icon {
+    background: none;
+    border: none;
+    color: var(--gh-text-muted);
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.2s;
+}
+.gh-btn-icon:hover { color: var(--gh-btn-danger); }
+
+/* Make offset input smaller */
+.offset-input { width: 100px; }
+
+.gh-btn:hover:not(:disabled) { background-color: var(--gh-btn-hover); border-color: #8b949e; }
+.gh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.gh-btn-primary { background-color: var(--gh-btn-primary); color: white; border-color: rgba(27, 31, 35, 0.15); }
+.gh-btn-primary:hover:not(:disabled) { background-color: var(--gh-btn-primary-hover); }
+
+.gh-btn-danger { color: #f85149; }
+.gh-btn-danger:hover:not(:disabled) { color: white; background-color: var(--gh-btn-danger); border-color: var(--gh-btn-danger); }
+
+/* Footer */
+.gh-footer { margin-top: auto; padding: 20px; text-align: center; border-top: 1px solid var(--gh-border); font-size: 12px; color: var(--gh-text-muted); }
+.gh-footer a { color: var(--gh-link); text-decoration: none; }
+.gh-footer a:hover { text-decoration: underline; }
+
+/* EXTEND EXISTING CSS WITH THESE */
+
+.badge {
+    background: #f0883e;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+/* Status Indicator */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: var(--gh-text-muted);
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #666;
+    margin-right: 6px;
+}
+.status-indicator.connected .status-dot { background: #238636; box-shadow: 0 0 8px #238636; }
+.status-indicator.connecting .status-dot { background: #e3b341; animation: blink 1s infinite; }
+
+@keyframes blink { 50% { opacity: 0.5; } }
+
+/* Sidebar Layout */
+.main-column { flex: 3; }
+.sidebar { flex: 1; min-width: 250px; height: fit-content; }
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+.info-row .label { color: var(--gh-text-muted); }
+.info-row .value { font-family: monospace; font-weight: bold; }
+
+.gh-btn-block { width: 100%; margin-bottom: 10px; }
+
+/* Tabs */
+.tabs { margin-bottom: 10px; display: flex; gap: 10px; }
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--gh-text-muted);
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+.tab-btn.active { color: var(--gh-text-main); border-bottom-color: #f0883e; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Controls Header */
+.flex-header { display: flex; justify-content: space-between; align-items: center; }
+.controls { display: flex; gap: 15px; align-items: center; }
+
+.gh-select {
+    background: var(--gh-input-bg);
+    border: 1px solid var(--gh-border);
+    color: var(--gh-text-main);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+/* Progress Bar */
+.progress-container {
+    height: 8px;
+    background: #30363d;
+    border-radius: 4px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    background: #1f6feb;
+    width: 0%;
+    transition: width 0.2s ease;
+}
+.progress-bar.active {
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-size: 1rem 1rem;
+    animation: progress-bar-stripes 1s linear infinite;
+}
+.progress-text { text-align: center; font-size: 12px; color: var(--gh-text-muted); margin-top: 5px; }
+
+@keyframes progress-bar-stripes {
+  0% { background-position: 1rem 0; }
+  100% { background-position: 0 0; }
+}
+
+/* File List refinements */
+.remove-row { color: #8b949e; }
+.remove-row:hover { color: #da3633; }
+.file-row { align-items: center; }
