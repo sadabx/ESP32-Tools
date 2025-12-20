@@ -1,73 +1,22 @@
-{
-  "projects": {
-    "hello-world": {
-      "name": "Hello World",
-      "version": "1.0.0",
-      "description": "Basic ESP32 LED blink example",
-      "path": "hello-world",
-      "files": [
-        {
-          "name": "bootloader.bin",
-          "address": 4096,
-          "size": 28672
-        },
-        {
-          "name": "partitions.bin",
-          "address": 32768,
-          "size": 4096
-        },
-        {
-          "name": "hello-world.bin",
-          "address": 65536,
-          "size": 1048576
-        }
-      ]
+"esp32-deauther-v1": {
+  "name": "ESP32 Deauther (Release)",
+  "version": "deauther-v1.0",
+  "description": "WiFi Deauthentication Tool",
+  "files": [
+    {
+      "name": "bootloader.bin",
+      "url": "https://corsproxy.io/?https://github.com/sadabx/esp32-tools/releases/download/deauther-v1.0/bootloader.bin",
+      "address": 4096
     },
-    "web-server": {
-      "name": "Web Server",
-      "version": "2.1.0",
-      "description": "ESP32 Web Server with file system",
-      "path": "web-server",
-      "files": [
-        {
-          "name": "bootloader.bin",
-          "address": 4096,
-          "size": 28672
-        },
-        {
-          "name": "partitions.bin",
-          "address": 32768,
-          "size": 8192
-        },
-        {
-          "name": "web-server.bin",
-          "address": 65536,
-          "size": 2097152
-        }
-      ]
+    {
+      "name": "partitions.bin",
+      "url": "https://corsproxy.io/?https://github.com/sadabx/esp32-tools/releases/download/deauther-v1.0/partitions.bin",
+      "address": 32768
     },
-    "sensor-node": {
-      "name": "Sensor Node",
-      "version": "1.5.3",
-      "description": "IoT sensor node with BME280 and WiFi",
-      "path": "sensor-node",
-      "files": [
-        {
-          "name": "bootloader.bin",
-          "address": 4096,
-          "size": 28672
-        },
-        {
-          "name": "partitions.bin",
-          "address": 32768,
-          "size": 4096
-        },
-        {
-          "name": "sensor-node.bin",
-          "address": 65536,
-          "size": 1572864
-        }
-      ]
+    {
+      "name": "firmware.bin",
+      "url": "https://corsproxy.io/?https://github.com/sadabx/esp32-tools/releases/download/deauther-v1.0/firmware.bin",
+      "address": 65536
     }
-  }
+  ]
 }
