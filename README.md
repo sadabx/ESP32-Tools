@@ -1,17 +1,16 @@
+
 <div align="center">
-    
+
 # ESP32 Tools
-</div>
-<div align="center">
 
 ![ESP32 Web Flasher](https://img.shields.io/badge/ESP32-Web%20Flasher-blue)
 ![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-green)
 ![Web Serial API](https://img.shields.io/badge/Web%20Serial-API-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-**Professional ESP32 firmware flashing tool for GitHub repositories**
+**ESP32 firmware flashing tool for GitHub repositories**
 
-[Web Flasher](#) • [Report Bug](https://github.com/sadabx/esp32-tools/issues) • [Request Feature](https://github.com/sadabx/esp32-tools/issues)
+[Web Flasher](#) • [Report Bug](https://github.com/sadabx/esp32-tools/issues) • [Github Discussion](https://github.com/sadabx/esp32-tools/discussions)
 
 </div>
 
@@ -137,12 +136,6 @@ esp32-tools/
 - ESP32 development board
 - USB cable
 
-### Adding New Features
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## 📝 License
 
@@ -150,7 +143,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 🤝 Contributing
 
-Contributions make the open-source community amazing! Any contributions you make are **greatly appreciated**.
+Contributions are what make the open-source community incredible, and every contribution is truly appreciated. Share your ESP32 open-source projects and distribute firmware directly through the repository.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -158,30 +151,8 @@ Contributions make the open-source community amazing! Any contributions you make
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 🐛 Known Issues
-
-- **Web Serial API**: Limited browser support
-- **Large Files**: May require more memory on older devices
-- **USB Drivers**: Some ESP32 boards need specific drivers
-
-## 🎯 Share your esp32 project
-
-- **Open Source Projects**: Distribute firmware with your repository
-
-
-## 🙏 Acknowledgments
-
-- [esptool-js](https://github.com/espressif/esptool-js) - ESP flashing library
-- [GitHub Primer](https://primer.style/) - Design inspiration
-- [Web Serial API](https://wicg.github.io/serial/) - Device communication
 
 ---
-
-## 📞 Support
-
-- **Documentation**: Check this README and code comments
-- **Discussions**: [GitHub Discussions](https://github.com/sadabx/esp32-tools/discussions)
-- **Email**: contact@trionine.xyz
 
 ## ⚡ Quick Links
 
