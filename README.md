@@ -10,7 +10,7 @@
 
 **ESP32 firmware flashing tool for GitHub repositories**
 
-[Web Flasher](#) • [Report Bug](https://github.com/sadabx/esp32-tools/issues) • [Github Discussion](https://github.com/sadabx/esp32-tools/discussions)
+[Web Flasher](https://sadabx.github.io/esp32-tools) • [Report Bug](https://github.com/sadabx/esp32-tools/issues) • [Github Discussion](https://github.com/sadabx/esp32-tools/discussions)
 
 </div>
 
