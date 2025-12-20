@@ -1,0 +1,20 @@
+{
+  "name": "ESP32 Blink",
+  "version": "1.0.0",
+  "chipFamily": "ESP32",
+  "description": "Simple LED blink firmware",
+  "files": [
+    {
+      "path": "bootloader.bin",
+      "offset": "0x1000"
+    },
+    {
+      "path": "partitions.bin",
+      "offset": "0x8000"
+    },
+    {
+      "path": "firmware.bin",
+      "offset": "0x10000"
+    }
+  ]
+}
