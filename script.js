@@ -193,7 +193,9 @@ autoFlashBtn.addEventListener('click', async () => {
         
         // Download each file
         for (const fileInfo of files) {
-            const response = await fetch(`${FIRMWARE_BASE_URL}/${currentProject.path}/${fileInfo.name}`);
+            // Check for a direct URL (from your Release), otherwise use the local path
+const downloadUrl = fileInfo.url ? fileInfo.url : `${FIRMWARE_BASE_URL}/${currentProject.path}/${fileInfo.name}`;
+const response = await fetch(downloadUrl);
             if (!response.ok) throw new Error(`Failed to download ${fileInfo.name}`);
             
             const blob = await response.blob();
@@ -503,3 +505,4 @@ function updateMonitorBaudRate() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('ESP32 Tools Pro initialized');
 });
+
