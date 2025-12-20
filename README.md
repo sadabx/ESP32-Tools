@@ -62,7 +62,7 @@ esp32-tools/
     ├── project-name/       # Example project
     │   ├── bootloader.bin
     │   ├── partitions.bin
-    │   └── hello-world.bin
+    │   └── firmware.bin
     └── your-project/      # Your firmware here
 ```
 
@@ -159,7 +159,6 @@ Contributions are what make the open-source community incredible, and every cont
 - [ESP32 Official Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/)
 - [Web Serial API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API)
 - [esptool-js Documentation](https://github.com/espressif/esptool-js)
-- [GitHub Pages Hosting](https://pages.github.com/)
 
 ---
 
