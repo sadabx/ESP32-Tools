@@ -475,17 +475,31 @@ eraseBtn.addEventListener('click', async () => {
 });
 
 // Tab switching
-window.switchTab = (tabId) => {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById(`tab-${tabId}`).classList.add('active');
-    event.target.classList.add('active');
-    
-    // Update monitor baud rate if switching to monitor tab
-    if (tabId === 'monitor' && deviceConnected) {
-        updateMonitorBaudRate();
-    }
-};
+function initTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            if (!tabId) return;
+            
+            // Hide all tab contents and remove active class from all buttons
+            document.querySelectorAll('.gh-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show current tab content and make button active
+            const targetContent = document.getElementById(`tab-${tabId}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            btn.classList.add('active');
+            
+            // Update monitor baud rate if switching to monitor tab
+            if (tabId === 'monitor' && deviceConnected) {
+                updateMonitorBaudRate();
+            }
+        });
+    });
+}
 
 function updateMonitorBaudRate() {
     if (!port || !deviceConnected) return;
@@ -504,5 +518,16 @@ function updateMonitorBaudRate() {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     console.log('ESP32 Tools Pro initialized');
+    initTabs();
+    
+    // Add default row if fileList is empty
+    const fileList = document.getElementById('fileList');
+    if (fileList && fileList.children.length === 0) {
+        const btnAddRow = document.getElementById('btnAddRow');
+        if (btnAddRow) btnAddRow.click();
+    }
+    
+    // Load available firmware
+    loadAvailableFirmware();
 });
 

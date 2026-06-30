@@ -1,27 +1,14 @@
-
-<div align="center">
-
 # ESP32 Tools
 
-![ESP32 Web Flasher](https://img.shields.io/badge/ESP32-Web%20Flasher-blue)
-![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-green)
-![Web Serial API](https://img.shields.io/badge/Web%20Serial-API-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+ESP32 firmware flashing tool for GitHub repositories, built with Web Serial API.
 
-**ESP32 firmware flashing tool for GitHub repositories**
+[Web Flasher](https://sadabx.github.io/ESP32-Tools) • [Report Bug](https://github.com/sadabx/esp32-tools/issues) • [GitHub Discussion](https://github.com/sadabx/esp32-tools/discussions)
 
-[Web Flasher](https://sadabx.github.io/esp32-tools) • [Report Bug](https://github.com/sadabx/esp32-tools/issues) • [Github Discussion](https://github.com/sadabx/esp32-tools/discussions)
+## Features
 
-</div>
-
-## ✨ Features
-
-### 🎯 **Dual Flashing Modes**
 - **Manual Flash**: Upload custom `.bin` files with offset addresses
 - **Auto Flash**: Automatically detect and flash firmware from repository
 - **One-Click Deployment**: Flash pre-built firmware with single click
-
-### 🔧 **Technical Capabilities**
 - Web Serial API integration (Chrome/Edge 89+)
 - Multiple baud rates (115200 to 2,000,000)
 - Full flash erase option
@@ -30,16 +17,17 @@
 - Device info detection (Chip type, MAC address)
 - Hardware reset control
 
+## Quick Start
 
-## 🚀 Quick Start
+### Clone the Repository
 
-### ⿻ Clone the Repository
 ```bash
 git clone https://github.com/sadabx/esp32-tools.git
 cd esp32-tools
 ```
 
-### 🛠️ Firmware Stucture
+### Firmware Structure
+
 ```
 firmware/
 ├── projects.json           # Configuration file
@@ -49,7 +37,7 @@ firmware/
 │   └── your-firmware.bin
 ```
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 esp32-tools/
@@ -66,9 +54,10 @@ esp32-tools/
     └── your-project/      # Your firmware here
 ```
 
-## 🛠️ Configuration
+## Configuration
 
-### Projects Configuration (`firmware/projects.json`)
+### projects.json (`firmware/projects.json`)
+
 ```json
 {
   "projects": {
@@ -99,51 +88,52 @@ esp32-tools/
 }
 ```
 
-## 📖 Usage Guide
+## Usage
 
 ### Manual Flashing
-1. **Connect Device**: Click "Connect Device" and select your ESP32
-2. **Add Files**: Add binary files with correct offsets
-3. **Configure**: Select baud rate and erase option
-4. **Flash**: Click "Start Flashing"
+
+1. Connect Device: Click "Connect Device" and select your ESP32
+2. Add Files: Add binary files with correct offsets
+3. Configure: Select baud rate and erase option
+4. Flash: Click "Start Flashing"
 
 ### Auto Flashing
-1. **Connect Device**: Ensure ESP32 is connected
-2. **Select Project**: Choose from repository projects
-3. **Review**: Check files and addresses
-4. **Flash**: Click "Flash Automatically"
+
+1. Connect Device: Ensure ESP32 is connected
+2. Select Project: Choose from repository projects
+3. Review: Check files and addresses
+4. Flash: Click "Flash Automatically"
 
 ### Serial Monitor
-1. **Connect**: Device must be connected
-2. **Monitor**: View real-time serial output
-3. **Send**: Type commands to send to device
 
-## 🌐 Browser Support
+1. Connect: Device must be connected
+2. Monitor: View real-time serial output
+3. Send: Type commands to send to device
+
+## Browser Support
 
 | Browser | Version | Support |
 |---------|---------|---------|
-| Chrome | 89+ | ✅ Full Support |
-| Edge | 89+ | ✅ Full Support |
-| Firefox | ❌ | Not Supported |
-| Safari | ❌ | Not Supported |
+| Chrome | 89+ | Full Support |
+| Edge | 89+ | Full Support |
+| Firefox | - | Not Supported |
+| Safari | - | Not Supported |
 
-**Note**: Requires Web Serial API support. Chrome/Edge recommended.
+Requires Web Serial API support. Chrome/Edge recommended.
 
-## 🧪 Development
+## Development
 
 ### Prerequisites
+
 - Chromium based browser
 - ESP32 development board
 - USB cable
 
-
-## 📝 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## 🤝 Contributing
-
-Contributions are what make the open-source community incredible, and every contribution is truly appreciated. Share your ESP32 open-source projects and distribute firmware directly through the repository.
+## Contributing
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -151,10 +141,9 @@ Contributions are what make the open-source community incredible, and every cont
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+Share your ESP32 open-source projects and distribute firmware directly through the repository.
 
----
-
-## ⚡ Quick Links
+## Quick Links
 
 - [ESP32 Official Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/)
 - [Web Serial API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API)
@@ -162,4 +151,4 @@ Contributions are what make the open-source community incredible, and every cont
 
 ---
 
-**Note**: This tool requires physical access to the ESP32 device via USB and a compatible browser. Always verify firmware integrity before flashing.
+Note: This tool requires physical access to the ESP32 device via USB and a compatible browser. Always verify firmware integrity before flashing.

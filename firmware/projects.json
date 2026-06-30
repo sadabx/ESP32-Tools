@@ -1,22 +1,47 @@
-"esp32-deauther-v1": {
-  "name": "ESP32 Deauther (Release)",
-  "version": "deauther-v1.0",
-  "description": "WiFi Deauthentication Tool",
-  "files": [
-    {
-      "name": "bootloader.bin",
-      "url": "https://corsproxy.io/?https://github.com/sadabx/esp32-tools/releases/download/deauther-v1.0/bootloader.bin",
-      "address": 4096
+{
+  "projects": {
+    "blink": {
+      "name": "ESP32 Blink",
+      "version": "1.0.0",
+      "description": "Simple LED blink firmware",
+      "path": "blink",
+      "files": [
+        {
+          "name": "bootloader.bin",
+          "address": 4096
+        },
+        {
+          "name": "partitions.bin",
+          "address": 32768
+        },
+        {
+          "name": "firmware.bin",
+          "address": 65536
+        }
+      ]
     },
-    {
-      "name": "partitions.bin",
-      "url": "https://corsproxy.io/?https://github.com/sadabx/esp32-tools/releases/download/deauther-v1.0/partitions.bin",
-      "address": 32768
-    },
-    {
-      "name": "firmware.bin",
-      "url": "https://corsproxy.io/?https://github.com/sadabx/esp32-tools/releases/download/deauther-v1.0/firmware.bin",
-      "address": 65536
+    "esp32-deauther-v1": {
+      "name": "ESP32 Deauther",
+      "version": "1.0",
+      "description": "WiFi Deauthentication Tool",
+      "path": "deauther",
+      "files": [
+        {
+          "name": "bootloader.bin",
+          "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/bootloader.bin",
+          "address": 4096
+        },
+        {
+          "name": "partitions.bin",
+          "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/firmware.bin",
+          "address": 32768
+        },
+        {
+          "name": "firmware.bin",
+          "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/firmware.bin",
+          "address": 65536
+        }
+      ]
     }
-  ]
+  }
 }
