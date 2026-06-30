@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Flasher</title>
+  <script src="https://unpkg.com/esptool-js@0.4.3/lib/index.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Ambient background -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="gh-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="brand">
+          <div class="brand-icon"><i class="fa-solid fa-microchip"></i></div>
+          <div class="brand-text">
+            <h1>ESP32 Flasher</h1>
+            <p class="brand-sub">Web Serial Flash Tool</p>
+          </div>
+        </div>
+        <div class="header-meta">
+          <div class="repo-pill">
+            <i class="fa-brands fa-github"></i>
+            <span class="repo-name">ESP32-Tools</span>
+            <span class="repo-branch"><i class="fa-solid fa-code-branch"></i> main</span>
+          </div>
+        </div>
+        <div class="status-indicator" id="connectionStatus">
+          <span class="status-dot"></span>
+          <span id="statusText">Disconnected</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container grid-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="gh-card device-card">
+        <div class="gh-card-header">
+          <h2><i class="fa-solid fa-server"></i> Device Info</h2>
+        </div>
+        <div class="gh-card-body">
+          <div class="device-info-grid">
+            <div class="info-item">
+              <span class="info-label">Chip</span>
+              <span class="info-value" id="chipType">—</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">MAC Address</span>
+              <span class="info-value mono" id="macAddr">—</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Features</span>
+              <span class="info-value" id="chipFeatures">—</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Flash Size</span>
+              <span class="info-value" id="flashSize">—</span>
+            </div>
+          </div>
+
+          <div class="sidebar-actions">
+            <button id="btnConnect" class="gh-btn gh-btn-block gh-btn-connect">
+              <i class="fa-solid fa-plug"></i>
+              <span>Connect Device</span>
+            </button>
+            <div class="action-row">
+              <button id="btnReset" class="gh-btn gh-btn-half" disabled>
+                <i class="fa-solid fa-rotate-right"></i> Reset
+              </button>
+              <button id="btnErase" class="gh-btn gh-btn-half gh-btn-danger" disabled>
+                <i class="fa-solid fa-trash"></i> Erase All
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gh-card info-card">
+        <div class="gh-card-header">
+          <h2><i class="fa-solid fa-circle-info"></i> Requirements</h2>
+        </div>
+        <div class="gh-card-body">
+          <ul class="req-list">
+            <li><i class="fa-brands fa-chrome"></i> Chrome or Edge browser</li>
+            <li><i class="fa-solid fa-usb"></i> USB cable (data)</li>
+            <li><i class="fa-solid fa-shield-halved"></i> No drivers needed</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Column -->
+    <div class="main-column">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('flash', event)">
+          <i class="fa-solid fa-bolt"></i> Manual Flash
+        </button>
+        <button class="tab-btn" onclick="switchTab('auto', event)">
+          <i class="fa-solid fa-robot"></i> Auto Flash
+        </button>
+        <button class="tab-btn" onclick="switchTab('monitor', event)">
+          <i class="fa-solid fa-terminal"></i> Serial Monitor
+        </button>
+      </div>
+
+      <!-- MANUAL FLASH TAB -->
+      <div id="tab-flash" class="gh-card tab-content active">
+        <div class="gh-card-header flex-header">
+          <div class="header-title-group">
+            <h2>Manual Flashing</h2>
+            <p class="tab-desc">Select .bin files and flash addresses</p>
+          </div>
+          <div class="controls">
+            <div class="control-group">
+              <label>Baud Rate</label>
+              <select id="baudRate" class="gh-select">
+                <option value="115200">115200</option>
+                <option value="460800">460800</option>
+                <option value="921600" selected>921600 ⚡</option>
+                <option value="2000000">2,000,000 🚀</option>
+              </select>
+            </div>
+            <label class="toggle-label">
+              <input type="checkbox" id="eraseFlash" checked />
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              <span class="toggle-text">Erase First</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="gh-card-body">
+          <div class="file-list-header">
+            <span class="col-label addr-col">Address</span>
+            <span class="col-label file-col">Firmware File</span>
+          </div>
+          <div id="fileList"></div>
+
+          <button id="btnAddRow" class="gh-btn-text add-row-btn">
+            <i class="fa-solid fa-plus"></i> Add File
+          </button>
+
+          <div class="progress-section">
+            <div class="progress-container">
+              <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-info">
+              <p id="progressText" class="progress-text">Ready to flash</p>
+              <span id="progressPercent" class="progress-percent"></span>
+            </div>
+          </div>
+
+          <div class="action-footer">
+            <button id="btnProgram" class="gh-btn gh-btn-primary gh-btn-lg" disabled>
+              <i class="fa-solid fa-bolt"></i> Flash Manually
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTO FLASH TAB -->
+      <div id="tab-auto" class="gh-card tab-content">
+        <div class="gh-card-header">
+          <div class="header-title-group">
+            <h2><i class="fa-solid fa-robot"></i> Auto Flash</h2>
+            <p class="tab-desc">Flash pre-built firmware from repository</p>
+          </div>
+        </div>
+        <div class="gh-card-body">
+
+          <div class="repo-tag">
+            <i class="fa-solid fa-tag"></i>
+            <span>Repository Firmware</span>
+            <code class="tag-path">/firmware</code>
+          </div>
+
+          <div class="input-group">
+            <label for="projectSelect">Select Project</label>
+            <select id="projectSelect" class="gh-select gh-select-full">
+              <option value="">Choose a project...</option>
+            </select>
+          </div>
+
+          <div id="firmwareInfo" class="firmware-meta" style="display:none">
+            <div class="meta-pill"><i class="fa-solid fa-file-code"></i> <span id="firmwareCount">0</span> files</div>
+            <div class="meta-pill"><i class="fa-solid fa-weight-hanging"></i> <span id="firmwareSize">0 KB</span></div>
+          </div>
+
+          <div id="firmwareList" class="firmware-list"></div>
+
+          <div class="progress-section">
+            <div class="progress-container">
+              <div class="progress-bar" id="autoProgressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-info">
+              <p id="autoProgressText" class="progress-text">Select a project to begin</p>
+            </div>
+          </div>
+
+          <div class="action-footer">
+            <button id="btnAutoFlash" class="gh-btn gh-btn-primary gh-btn-lg" disabled>
+              <i class="fa-solid fa-rocket"></i> Flash Automatically
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERIAL MONITOR TAB -->
+      <div id="tab-monitor" class="gh-card tab-content">
+        <div class="gh-card-header flex-header">
+          <div class="header-title-group">
+            <h2>Serial Monitor</h2>
+            <p class="tab-desc">Real-time device output</p>
+          </div>
+          <div class="controls">
+            <div class="control-group">
+              <label>Baud Rate</label>
+              <select id="monitorBaud" class="gh-select">
+                <option value="9600">9600</option>
+                <option value="19200">19200</option>
+                <option value="38400">38400</option>
+                <option value="57600">57600</option>
+                <option value="74880">74880</option>
+                <option value="115200" selected>115200</option>
+                <option value="230400">230400</option>
+              </select>
+            </div>
+            <button id="btnClearConsole" class="gh-btn gh-btn-sm">
+              <i class="fa-solid fa-broom"></i> Clear
+            </button>
+          </div>
+        </div>
+        <div class="gh-card-body no-padding">
+          <div class="terminal" id="console">
+            <div class="term-line system">
+              <span class="term-prompt">$</span>
+              <span>ESP32 Flasher Pro — Connect a device to begin.</span>
+            </div>
+          </div>
+          <div class="terminal-input-area">
+            <span class="input-prompt">›</span>
+            <input type="text" id="serialInput" placeholder="Send command..." disabled />
+            <button id="btnSend" class="gh-btn gh-btn-primary" disabled>
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="gh-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span><i class="fa-solid fa-microchip"></i> ESP32 Flasher Pro</span>
+        <span class="footer-sep">·</span>
+        <a href="https://github.com/yourusername/esp32-tools" target="_blank">
+          <i class="fa-brands fa-github"></i> esp32-tools
+        </a>
+        <span class="footer-sep">·</span>
+        <span>Powered by Web Serial API</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("btnAddRow").click();
+      loadAvailableFirmware();
+    });
+  </script>
+</body>
+
+</html>
