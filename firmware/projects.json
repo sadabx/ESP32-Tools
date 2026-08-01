@@ -4,6 +4,9 @@
       "name": "ESP32 Blink",
       "version": "1.0.0",
       "description": "Simple LED blink firmware",
+      "available": false,
+      "unavailableReason": "The binary files are not included in this repository.",
+      "target": "ESP32",
       "path": "blink",
       "files": [
         {
@@ -24,22 +27,31 @@
       "name": "ESP32 Deauther",
       "version": "1.0",
       "description": "WiFi Deauthentication Tool",
+      "available": true,
+      "target": "ESP32-WROOM-32",
+      "releaseUrl": "https://github.com/sadabx/ESP32-Tools/releases/tag/deauther-v1.0",
       "path": "deauther",
       "files": [
         {
           "name": "bootloader.bin",
           "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/bootloader.bin",
-          "address": 4096
+          "address": 4096,
+          "size": 17536,
+          "sha256": "3d234a7471f67b013686dabd4dee7c1fa915c9928463616a94bc9297acf1abf8"
         },
         {
           "name": "partitions.bin",
-          "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/firmware.bin",
-          "address": 32768
+          "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/partitions.bin",
+          "address": 32768,
+          "size": 3072,
+          "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
         },
         {
           "name": "firmware.bin",
           "url": "https://github.com/sadabx/ESP32-Tools/releases/download/deauther-v1.0/firmware.bin",
-          "address": 65536
+          "address": 65536,
+          "size": 792976,
+          "sha256": "c5e28096496f6a01ee2beab2e83e140f1b64e473f7354d33c3eaec1f7156bcc7"
         }
       ]
     }

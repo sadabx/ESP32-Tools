@@ -3,361 +3,380 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sadabx/ESP32-Tools: Web Serial Flash Tool</title>
-    <script
-      type="module"
-      src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"
-    ></script>
-    <script src="https://unpkg.com/esptool-js/lib/index.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
-      rel="stylesheet"
+    <meta
+      name="description"
+      content="A private, browser-based ESP32 firmware flasher and serial console powered by Web Serial."
     />
+    <meta name="theme-color" content="#071c16" />
+    <title>ESP32 Workbench — Flash &amp; Monitor</title>
+    <link rel="icon" href="assets/esp32-chip.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
   <body>
-    <!-- Application Header -->
-    <header class="app-header">
-      <div class="container header-container">
-        <div class="app-brand">
-          <i class="fa-solid fa-microchip brand-icon"></i>
-          <div class="brand-text">
-            <h1>ESP32 Tools</h1>
-            <p class="subtitle">Web Serial Flasher & Console Monitor</p>
-          </div>
-        </div>
+    <div class="board-grid" aria-hidden="true"></div>
 
-        <!-- Navigation Tabs -->
-        <nav class="app-nav">
-          <button class="tab-btn active" data-tab="flash">
-            <i class="fa-solid fa-bolt tab-icon"></i>
-            <span>Manual Flash</span>
-          </button>
-          <button class="tab-btn" data-tab="auto">
-            <i class="fa-solid fa-robot tab-icon"></i>
-            <span>Auto Flash</span>
-          </button>
-          <button class="tab-btn" data-tab="monitor">
-            <i class="fa-solid fa-terminal tab-icon"></i>
-            <span>Serial Monitor</span>
-          </button>
-        </nav>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="ESP32 Workbench home">
+        <img src="assets/esp32-chip.svg" alt="" width="44" height="44" />
+        <span class="brand-copy">
+          <strong>ESP32 <em>Workbench</em></strong>
+          <small>Browser firmware lab</small>
+        </span>
+      </a>
+
+      <div class="topbar-meta">
+        <span id="browserSupport" class="browser-support checking" role="status" aria-live="polite">
+          <i class="fa-solid fa-spinner" aria-hidden="true"></i>
+          Checking browser…
+        </span>
+        <span class="privacy-chip">
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+          Local USB session
+        </span>
+        <a
+          class="icon-link"
+          href="https://github.com/sadabx/ESP32-Tools"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="View source on GitHub"
+        >
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+        </a>
       </div>
     </header>
 
-    <!-- Main Grid Layout -->
-    <main class="container grid-layout">
-      <!-- Left Column: Tool Panel -->
-      <div class="main-column">
-        <!-- MANUAL FLASH TAB CONTENT -->
-        <div id="tab-flash" class="gh-tab-content active">
-          <div class="gh-panel-card">
-            <div class="gh-panel-header">
-              <div class="panel-header-title">
-                <h3>Flash Firmware Binaries</h3>
-                <p>
-                  Upload files and specify target memory addresses to flash your
-                  board manually.
-                </p>
+    <main>
+      <section class="hero shell" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> Web Serial control surface</div>
+          <h1 id="hero-title">From binary to board,<br /><em>without leaving your browser.</em></h1>
+          <p>
+            Connect an ESP32, map firmware to flash addresses, or watch live UART
+            output. Your files stay in this browser session.
+          </p>
+          <div class="hero-actions">
+            <button id="heroConnect" class="button button-primary" type="button">
+              <i class="fa-brands fa-usb" aria-hidden="true"></i>
+              Connect board
+            </button>
+            <button class="button button-ghost tab-shortcut" data-target-tab="auto" type="button">
+              Browse firmware
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-diagram" aria-label="Stylized ESP32 circuit diagram">
+          <svg viewBox="0 0 560 310" role="img" aria-labelledby="diagram-title">
+            <title id="diagram-title">ESP32 connected to flash memory and a serial terminal</title>
+            <defs>
+              <linearGradient id="chipFill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#183f33" />
+                <stop offset="1" stop-color="#081b16" />
+              </linearGradient>
+              <filter id="diagramGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+            <g class="trace-lines" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M74 72h98l34 34" />
+              <path d="M50 154h106l50-12" />
+              <path d="M78 238h88l40-54" />
+              <path d="M354 104l36-38h104" />
+              <path d="M354 151h142" />
+              <path d="M354 194l42 50h104" />
+            </g>
+            <g class="trace-pads">
+              <circle cx="74" cy="72" r="7" /><circle cx="50" cy="154" r="7" />
+              <circle cx="78" cy="238" r="7" /><circle cx="494" cy="66" r="7" />
+              <circle cx="496" cy="151" r="7" /><circle cx="500" cy="244" r="7" />
+            </g>
+            <g class="diagram-labels">
+              <text x="32" y="54">USB</text><text x="26" y="137">UART</text>
+              <text x="27" y="269">POWER</text><text x="449" y="48">FLASH</text>
+              <text x="447" y="136">GPIO</text><text x="440" y="273">RADIO</text>
+            </g>
+            <rect class="chip-shadow" x="196" y="54" width="170" height="202" rx="24" />
+            <rect x="206" y="44" width="148" height="202" rx="20" fill="url(#chipFill)" stroke="#58e6a9" stroke-width="2" />
+            <g class="chip-pins">
+              <path d="M206 71h-20M206 98h-20M206 125h-20M206 152h-20M206 179h-20M206 206h-20" />
+              <path d="M354 71h20M354 98h20M354 125h20M354 152h20M354 179h20M354 206h20" />
+            </g>
+            <g class="chip-mark">
+              <path d="M246 86h68M246 96h68M251 106h58" />
+              <text x="280" y="154" text-anchor="middle">ESP</text>
+              <text x="280" y="188" text-anchor="middle">32</text>
+              <text class="chip-caption" x="280" y="219" text-anchor="middle">240 MHz · Wi-Fi · BLE</text>
+            </g>
+            <g class="signal-pulse" filter="url(#diagramGlow)">
+              <circle cx="116" cy="154" r="4" />
+              <circle cx="420" cy="151" r="4" />
+            </g>
+          </svg>
+          <div class="diagram-note note-top"><span></span> BOOTLOADER READY</div>
+          <div class="diagram-note note-bottom">01 / CONTROL BUS</div>
+        </div>
+      </section>
+
+      <section id="browserNotice" class="browser-notice shell" hidden role="alert">
+        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+        <div>
+          <strong id="browserNoticeTitle">Web Serial is unavailable here.</strong>
+          <span id="browserNoticeReason">Open this page over HTTPS in a current Chrome or Edge browser.</span>
+        </div>
+      </section>
+
+      <section class="workspace shell" aria-label="ESP32 tools">
+        <nav class="tool-nav" aria-label="Workbench tools">
+          <div class="nav-label">Tools</div>
+          <button class="tab-btn active" data-tab="flash" type="button" aria-selected="true">
+            <span class="tab-number">01</span>
+            <span class="tab-copy"><strong>Manual flash</strong><small>Map local binaries</small></span>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+          <button class="tab-btn" data-tab="auto" type="button" aria-selected="false">
+            <span class="tab-number">02</span>
+            <span class="tab-copy"><strong>Quick install</strong><small>Repository builds</small></span>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+          <button class="tab-btn" data-tab="monitor" type="button" aria-selected="false">
+            <span class="tab-number">03</span>
+            <span class="tab-copy"><strong>Serial scope</strong><small>Live UART console</small></span>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+
+          <div class="nav-help">
+            <i class="fa-regular fa-lightbulb" aria-hidden="true"></i>
+            <p>Hold <kbd>BOOT</kbd> while connecting if automatic reset cannot enter download mode.</p>
+          </div>
+        </nav>
+
+        <div class="tool-stage">
+          <section id="tab-flash" class="tab-content active" aria-labelledby="manual-title">
+            <div class="stage-heading">
+              <div>
+                <span class="section-kicker">Custom memory map</span>
+                <h2 id="manual-title">Manual firmware flash</h2>
+                <p>Choose each binary and tell the flasher where it belongs.</p>
               </div>
-              <div class="panel-header-controls">
-                <div class="control-select-wrapper">
-                  <label for="baudRate">Baud Rate:</label>
-                  <select id="baudRate" class="gh-select">
-                    <option value="115200">115200</option>
-                    <option value="460800">460800</option>
-                    <option value="921600" selected>921600 (Turbo)</option>
-                    <option value="2000000">2,000,000 (Expert)</option>
+              <div class="heading-controls">
+                <label class="field compact-field">
+                  <span>Upload speed</span>
+                  <select id="baudRate">
+                    <option value="115200">115,200 · stable</option>
+                    <option value="460800">460,800 · fast</option>
+                    <option value="921600" selected>921,600 · turbo</option>
+                    <option value="2000000">2,000,000 · expert</option>
                   </select>
-                </div>
-                <label class="gh-checkbox-label">
-                  <input type="checkbox" id="eraseFlash" checked />
-                  <span class="custom-checkbox"></span>
-                  <span>Erase flash before install</span>
                 </label>
               </div>
             </div>
 
-            <div class="gh-panel-body">
-              <div class="file-list-header">
-                <span class="col-addr">Address</span>
-                <span class="col-file">Firmware File (.bin)</span>
+            <div class="memory-map" aria-label="Firmware file memory map">
+              <div class="map-header">
+                <span>Flash offset</span><span>Binary image</span><span aria-hidden="true"></span>
               </div>
-              <div id="fileList" class="file-list-container">
-                <!-- Dynamically populated rows -->
-              </div>
+              <div id="fileList" class="file-list"></div>
+              <button id="btnAddRow" class="add-row" type="button">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i> Add another binary
+              </button>
+            </div>
 
-              <div class="panel-actions-row">
-                <button id="btnAddRow" class="gh-btn-text-action">
-                  <i class="fa-solid fa-plus"></i> Add file row
-                </button>
-              </div>
+            <label class="erase-toggle">
+              <input type="checkbox" id="eraseFlash" />
+              <span class="toggle-track"><span></span></span>
+              <span><strong>Erase all flash first</strong><small>Recommended only for a clean install</small></span>
+            </label>
 
-              <!-- Progress Indicator -->
-              <div class="gh-progress-wrapper">
-                <div class="progress-info-row">
-                  <span id="progressText" class="progress-status-text"
-                    >Ready to flash</span
-                  >
-                  <span
-                    id="progressPercent"
-                    class="progress-percent-label"
-                  ></span>
-                </div>
-                <div class="gh-progress-container">
-                  <div
-                    class="gh-progress-bar"
-                    id="progressBar"
-                    style="width: 0%"
-                  ></div>
-                </div>
+            <div class="progress-block" aria-live="polite">
+              <div class="progress-copy">
+                <span id="progressText">Waiting for a board and binary</span>
+                <strong id="progressPercent">0%</strong>
               </div>
+              <div class="progress-track"><span id="progressBar"></span></div>
+            </div>
 
-              <div class="panel-footer-actions">
-                <button id="btnProgram" class="gh-btn gh-btn-primary" disabled>
-                  <i class="fa-solid fa-bolt"></i> Write to Flash
-                </button>
+            <div class="stage-footer">
+              <p><i class="fa-solid fa-lock" aria-hidden="true"></i> Files are read locally and never uploaded.</p>
+              <button id="btnProgram" class="button button-primary" type="button" disabled>
+                <i class="fa-solid fa-bolt" aria-hidden="true"></i> Write firmware
+              </button>
+            </div>
+          </section>
+
+          <section id="tab-auto" class="tab-content" aria-labelledby="auto-title">
+            <div class="stage-heading">
+              <div>
+                <span class="section-kicker">Curated builds</span>
+                <h2 id="auto-title">Quick firmware install</h2>
+                <p>Download a known image set and write every component to the right address.</p>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- AUTO FLASH TAB CONTENT -->
-        <div id="tab-auto" class="gh-tab-content">
-          <div class="gh-panel-card">
-            <div class="gh-panel-header">
-              <div class="panel-header-title">
-                <h3>Automated Repository Flashing</h3>
-                <p>
-                  Directly flash compiled firmware binaries fetched from the
-                  repository's <code>/firmware</code> directory.
-                </p>
-              </div>
+            <label class="field project-field" for="projectSelect">
+              <span>Select a project</span>
+              <select id="projectSelect">
+                <option value="">Loading firmware catalog…</option>
+              </select>
+            </label>
+
+            <div id="firmwareEmpty" class="firmware-empty">
+              <span class="empty-chip"><i class="fa-solid fa-microchip" aria-hidden="true"></i></span>
+              <h3>Pick a build to inspect its memory map</h3>
+              <p>File sizes, offsets, and release details will appear here before anything is written.</p>
             </div>
-            <div class="gh-panel-body">
-              <div class="gh-alert-info">
-                <i class="fa-solid fa-circle-info info-icon"></i>
+
+            <div id="firmwareInfo" class="firmware-card" hidden>
+              <div class="firmware-summary">
                 <div>
-                  <strong>Repository Firmware</strong> builds are stored inside
-                  the project workspace directory. Select a pre-configured
-                  project config to list its binary components.
+                  <span class="section-kicker">Selected package</span>
+                  <h3 id="firmwareName">—</h3>
+                  <p id="firmwareDescription">—</p>
                 </div>
+                <span id="firmwareVersion" class="version-badge">v—</span>
               </div>
-
-              <div class="gh-form-row">
-                <div class="gh-form-group">
-                  <label for="projectSelect" class="form-label"
-                    >Available Projects</label
-                  >
-                  <select id="projectSelect" class="gh-select select-block">
-                    <option value="">Select a project...</option>
-                  </select>
-                </div>
+              <div class="spec-strip">
+                <div><span>Components</span><strong id="firmwareCount">0</strong></div>
+                <div><span>Package size</span><strong id="firmwareSize">—</strong></div>
+                <div><span>Target</span><strong id="firmwareTarget">ESP32</strong></div>
               </div>
-
-              <!-- Firmwares Info Display Card -->
-              <div
-                id="firmwareInfo"
-                class="firmware-spec-card"
-                style="display: none"
-              >
-                <h4 class="spec-title">Selected Firmware Specifications</h4>
-                <div class="spec-grid">
-                  <div class="spec-item">
-                    <span class="spec-label">Files Count</span>
-                    <span class="spec-val" id="firmwareCount">0</span>
-                  </div>
-                  <div class="spec-item">
-                    <span class="spec-label">Total Size</span>
-                    <span class="spec-val" id="firmwareSize">0 KB</span>
-                  </div>
-                </div>
-
-                <div class="spec-files-list">
-                  <h5 class="files-title">Included Binary Components</h5>
-                  <div id="firmwareList" class="firmware-items-list">
-                    <!-- Auto-populated file item views -->
-                  </div>
-                </div>
-              </div>
-
-              <!-- Auto Progress Indicator -->
-              <div class="gh-progress-wrapper">
-                <div class="progress-info-row">
-                  <span id="autoProgressText" class="progress-status-text"
-                    >Select a project to begin</span
-                  >
-                </div>
-                <div class="gh-progress-container">
-                  <div
-                    class="gh-progress-bar"
-                    id="autoProgressBar"
-                    style="width: 0%"
-                  ></div>
-                </div>
-              </div>
-
-              <div class="panel-footer-actions">
-                <button
-                  id="btnAutoFlash"
-                  class="gh-btn gh-btn-primary"
-                  disabled
-                >
-                  <i class="fa-solid fa-rocket"></i> Auto Flash Board
-                </button>
-              </div>
+              <div id="firmwareList" class="firmware-list"></div>
             </div>
-          </div>
-        </div>
 
-        <!-- SERIAL MONITOR TAB CONTENT -->
-        <div id="tab-monitor" class="gh-tab-content">
-          <!-- Styled as GitHub Actions workflow log terminal -->
-          <div class="gh-terminal-card">
-            <div class="terminal-card-header">
-              <div class="terminal-title">
-                <i class="fa-solid fa-terminal"></i>
-                <span>Console Log Monitor</span>
+            <label class="erase-toggle">
+              <input type="checkbox" id="autoEraseFlash" />
+              <span class="toggle-track"><span></span></span>
+              <span><strong>Clean install</strong><small>Erase stored settings before installing this package</small></span>
+            </label>
+
+            <div class="progress-block" aria-live="polite">
+              <div class="progress-copy">
+                <span id="autoProgressText">Select a firmware package</span>
+                <strong id="autoProgressPercent">0%</strong>
               </div>
-              <div class="terminal-controls">
-                <div class="control-select-wrapper dark-style">
-                  <select id="monitorBaud" class="gh-select compact">
-                    <option value="115200">115200</option>
-                    <option value="9600">9600</option>
-                    <option value="19200">19200</option>
-                    <option value="38400">38400</option>
-                    <option value="57600">57600</option>
-                    <option value="74880">74880</option>
-                    <option value="230400">230400</option>
-                  </select>
-                </div>
-                <button id="btnClearConsole" class="gh-btn-compact">
-                  <i class="fa-solid fa-broom"></i> Clear Console
-                </button>
-              </div>
+              <div class="progress-track"><span id="autoProgressBar"></span></div>
             </div>
-            <div class="terminal-wrapper">
-              <div class="terminal-body" id="console">
-                <div class="term-line system-line">
-                  <span class="line-num">1</span>
-                  <span class="line-time">00:00:00</span>
-                  <span class="line-content"
-                    ><i class="fa-solid fa-circle-check text-success"></i> Web
-                    Serial Console ready. Connect device to monitor board
-                    output.</span
-                  >
-                </div>
-              </div>
-              <div class="terminal-input-bar">
-                <span class="console-prompt">›</span>
-                <input
-                  type="text"
-                  id="serialInput"
-                  placeholder="Send serial command to board (Enter to send)..."
-                  disabled
-                />
-                <button id="btnSend" class="terminal-send-btn" disabled>
-                  <i class="fa-solid fa-paper-plane"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Right Column: Sidebar (Connection Panel) -->
-      <aside class="sidebar">
-        <div class="sidebar-block">
-          <h3 class="sidebar-heading">Device Connection</h3>
-
-          <!-- Connection Status Pill -->
-          <div class="status-badge-container">
-            <span class="status-label">Status:</span>
-            <div class="status-indicator-badge" id="connectionStatus">
-              <span class="status-dot"></span>
-              <span id="statusText" class="badge-text">Disconnected</span>
-            </div>
-          </div>
-
-          <div class="device-details-list">
-            <div class="detail-row">
-              <span class="detail-label">Detected Chip:</span>
-              <span class="detail-value" id="chipType">-</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">MAC Address:</span>
-              <span class="detail-value font-mono" id="macAddr">-</span>
-            </div>
-          </div>
-
-          <div class="sidebar-actions-group">
-            <button id="btnConnect" class="gh-btn gh-btn-block gh-btn-outline">
-              <i class="fa-solid fa-plug"></i> Connect Device
-            </button>
-            <div class="action-grid-half">
-              <button
-                id="btnReset"
-                class="gh-btn gh-btn-outline compact-btn"
-                disabled
-              >
-                <i class="fa-solid fa-rotate-right"></i> Reset Board
-              </button>
-              <button
-                id="btnErase"
-                class="gh-btn gh-btn-danger compact-btn"
-                disabled
-              >
-                <i class="fa-solid fa-trash"></i> Erase Flash
+            <div class="stage-footer">
+              <p><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Review the package offsets before installing.</p>
+              <button id="btnAutoFlash" class="button button-primary" type="button" disabled>
+                <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Install selected build
               </button>
             </div>
-          </div>
+          </section>
+
+          <section id="tab-monitor" class="tab-content" aria-labelledby="monitor-title">
+            <div class="stage-heading monitor-heading">
+              <div>
+                <span class="section-kicker">Live UART</span>
+                <h2 id="monitor-title">Serial scope</h2>
+                <p>Monitor boot logs, sensor values, and application output in real time.</p>
+              </div>
+              <div class="monitor-actions">
+                <label class="field compact-field">
+                  <span>Baud</span>
+                  <select id="monitorBaud">
+                    <option value="9600">9,600</option>
+                    <option value="19200">19,200</option>
+                    <option value="38400">38,400</option>
+                    <option value="57600">57,600</option>
+                    <option value="74880">74,880</option>
+                    <option value="115200" selected>115,200</option>
+                    <option value="230400">230,400</option>
+                  </select>
+                </label>
+                <button id="btnStartMonitor" class="button button-small" type="button">
+                  <i class="fa-solid fa-play" aria-hidden="true"></i> Start monitor
+                </button>
+              </div>
+            </div>
+
+            <div class="terminal-card">
+              <div class="terminal-bar">
+                <div class="terminal-lights" aria-hidden="true"><span></span><span></span><span></span></div>
+                <span id="terminalStatus">uart://waiting-for-device</span>
+                <button id="btnClearConsole" type="button">
+                  <i class="fa-regular fa-trash-can" aria-hidden="true"></i> Clear
+                </button>
+              </div>
+              <div id="console" class="terminal-body" role="log" aria-live="polite" aria-label="Serial output">
+                <div class="term-line system"><span class="term-time">00:00:00</span><span class="term-mark">●</span><span>Serial scope ready. Start the monitor to open a UART session.</span></div>
+              </div>
+              <div class="terminal-input">
+                <span>&gt;</span>
+                <input id="serialInput" type="text" placeholder="Send a command…" autocomplete="off" disabled />
+                <button id="btnSend" type="button" disabled aria-label="Send serial command">
+                  <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <p class="monitor-note">
+              <i class="fa-solid fa-code-branch" aria-hidden="true"></i>
+              The serial monitor uses its own connection. Starting it safely closes any active bootloader session first.
+            </p>
+          </section>
         </div>
-      </aside>
+
+        <aside class="device-panel" aria-labelledby="device-title">
+          <div class="device-heading">
+            <span id="connectionStatus" class="status-led" data-state="disconnected"><span></span></span>
+            <div><small>Device link</small><strong id="statusText">Disconnected</strong></div>
+          </div>
+
+          <div class="board-visual" aria-hidden="true">
+            <div class="antenna-lines"><span></span><span></span><span></span></div>
+            <div class="usb-port"></div>
+            <div class="mini-board">
+              <span class="mini-pin left one"></span><span class="mini-pin left two"></span><span class="mini-pin left three"></span>
+              <span class="mini-pin right one"></span><span class="mini-pin right two"></span><span class="mini-pin right three"></span>
+              <div class="mini-chip">ESP<br /><b>32</b></div>
+              <span class="power-led"></span>
+            </div>
+          </div>
+
+          <dl class="device-specs">
+            <div><dt>Chip</dt><dd id="chipType">Not detected</dd></div>
+            <div><dt>MAC</dt><dd id="macAddr">—</dd></div>
+            <div><dt>Mode</dt><dd id="sessionMode">Standby</dd></div>
+          </dl>
+
+          <button id="btnConnect" class="button button-connect" type="button">
+            <i class="fa-brands fa-usb" aria-hidden="true"></i> Connect board
+          </button>
+          <div class="device-actions">
+            <button id="btnReset" type="button" disabled><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Reset</button>
+            <button id="btnErase" class="danger-action" type="button" disabled><i class="fa-regular fa-trash-can" aria-hidden="true"></i> Erase</button>
+          </div>
+
+          <div class="device-footnote">
+            <i class="fa-brands fa-chrome" aria-hidden="true"></i>
+            <span id="deviceBrowserStatus">Checking browser…<br /><small>HTTPS or localhost required</small></span>
+          </div>
+        </aside>
+      </section>
     </main>
 
-    <!-- Application Footer -->
-    <footer class="gh-footer">
-      <div class="container footer-container">
-        <div class="footer-left">
-          <span
-            >&copy; 2026 ESP32 Flasher Utility. Powered by Web Serial API.</span
-          >
-        </div>
-        <div class="footer-right">
-          <ul class="footer-links">
-            <li>
-              <a href="https://github.com/sadabx/ESP32-Tools" target="_blank"
-                >Repository</a
-              >
-            </li>
-            <li>
-              <a href="https://github.com/espressif/esptool-js" target="_blank"
-                >esptool-js</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API"
-                target="_blank"
-                >Web Serial</a
-              >
-            </li>
-            <li><a href="#">About</a></li>
-          </ul>
-        </div>
+    <footer class="footer shell">
+      <div>
+        <img src="assets/esp32-chip.svg" alt="" width="28" height="28" />
+        <span>ESP32 Workbench <small>Built for the open hardware bench.</small></span>
       </div>
+      <nav aria-label="Footer links">
+        <a href="http://esp32.net/" target="_blank" rel="noreferrer">ESP32.net inspiration</a>
+        <a href="https://github.com/espressif/esptool-js" target="_blank" rel="noreferrer">esptool-js</a>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API" target="_blank" rel="noreferrer">Web Serial</a>
+        <a href="https://github.com/sadabx/ESP32-Tools/issues" target="_blank" rel="noreferrer">Report a bug</a>
+      </nav>
     </footer>
 
-    <script src="script.js"></script>
-    <script>
-      // Initial firmware loaders run inside script.js DOMContentLoaded listener
-    </script>
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
